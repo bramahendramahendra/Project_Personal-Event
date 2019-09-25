@@ -9,7 +9,7 @@ class Subscribe_M extends CI_Model {
 	 *
 	 */
 	//Untuk mengecek apakah ada duplikat atau tidak
-	public function Check_Duplicate_Email_Subscribe($email)
+	public function Check_Duplicate_Email($email)
 	{
 		// mengecek apakah email udah terdaftar atau belum
         $this->db->select('email');
@@ -19,9 +19,10 @@ class Subscribe_M extends CI_Model {
         return $query->first_row();
 	}
 
-	public function Create_Subscribe($data)
+	public function Create($data)
 	{
 		//insert data email to table db subscribe
-        $this->db->insert('subscribe', $data);
+		$this->db->insert('subscribe', $data);
+		return $this->db->insert_id();	
 	}
 }

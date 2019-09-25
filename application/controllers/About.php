@@ -10,10 +10,13 @@ class About extends CI_Controller {
 	public function index()
 	{
 		$data = array ();
-		$data['header']['page1'] = "Tentang";
-		$data['name_page'] = 'Home';
-		$this->load->view('Template/Website/2/Header_V',$data);
-		$this->load->view('Content/Website/Tentang_V');
-		$this->load->view('Template/Website/2/Footer_V');
+
+		$data['name_page'] = 'About';
+		$data['header']['page1'] = "Beranda";
+		$data['header']['page2'] = "Tentang";
+
+		$this->session->set_userdata('page', 'About');
+
+		$this->load->view('Template/Website/Tentang_V', $data);
 	}
 }

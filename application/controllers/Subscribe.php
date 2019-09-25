@@ -13,7 +13,8 @@ class Subscribe extends CI_Controller {
 		if ($this->form_validation->run('subscribe-validation') == FALSE) 
 		{
 			// if form validation failed
-			$this->session->set_flashdata('Modal-Alert','Failed-Subscribe');
+			$this->session->set_flashdata('Modal-Alert','Failed');
+			$this->session->set_flashdata('Modal-Content','Email yang anda masukkan tidak valid.');
 			redirect(site_url($name_page));
 		} 
 		else 
@@ -21,35 +22,40 @@ class Subscribe extends CI_Controller {
 			// if form validation success
 			// check duplicate
 			// $email = $this->input->post('email');
-			$duplikat = $this->Check_Duplicate_Subscribe($this->input->post('email'));
+			$duplikat = $this->Check_Duplicate_Email($this->input->post('email'));
 			if($duplikat == TRUE)
 			{
 				//if email duplicate
-				$this->session->set_flashdata('Modal-Alert','Duplicate-Subscribe');
+				$this->session->set_flashdata('Modal-Alert','Duplicate');
+				$this->session->set_flashdata('Modal-Content','Email yang anda masukkan sudah ter-Subscribe sebelumnya.');
 				redirect(site_url($name_page));
 			}
 			else
 			{
 				// if save email subscribe
 				// echo "false";
-				$this->Create_Subscribe($this->input->post('email'));
-				$this->session->set_flashdata('Modal-Alert','Success-Subscribe');
+				$this->Create($this->input->post('email'));
+				$this->session->set_flashdata('Modal-Alert','Success');
+				$this->session->set_flashdata('Modal-Content','Anda berhasil Subscribe.');
 				redirect(site_url($name_page));
 			}
 		}
 	}
 
-	public function Check_Duplicate_Subscribe($email)
+	public function Check_Duplicate_Email($email)
 	{
-		return $this->Subscribe_M->Check_Duplicate_Email_Subscribe($email);
+		return $this->Subscribe_M->Check_Duplicate_Email($email);
 	}
 
-	public function Create_Subscribe($email)
+	public function Create($email)
 	{
-		$data = array (
-			'email' => $email
-		);
-		$this->Subscribe_M->Create_Subscribe($data);
+		date_default_timezone_set("Asia/Bangkok");
+
+		$data = array();
+		$data['email'] = $email;
+		$data['create_date'] =  date('Y-m-d H:i:s');
+
+		$this->Subscribe_M->Create($data);
 	}
 
 }

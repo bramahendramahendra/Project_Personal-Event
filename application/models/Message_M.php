@@ -8,8 +8,9 @@ class Message_M extends CI_Model {
 	 * Message Model
 	 *
 	 */
-	public function CreateMessage_model()
+	public function Create($data)
 	{
-		$this->template->load('Template/index','Content/beranda_v');
+		$this->db->insert('message', $data);
+		return $this->db->insert_id();
 	}
 }

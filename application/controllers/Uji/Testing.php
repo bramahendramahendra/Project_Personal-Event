@@ -9,6 +9,16 @@ class Testing extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('Uji/testing0.php');
+		$id = 23;
+
+		$data = array ();
+		$data['name_page'] = 'Events';
+		$data['header']['page1'] = "Beranda";
+		$data['header']['page2'] = "Event";
+		$data['event'] = $this->Event_M->Read($id);
+		$data['organisasi'] = $this->Organisasi_M->Read($data['event']->id_organisasi);
+		$data['kategori_event'] = $this->Event_M->Read_Kategori_Event($data['event']->kategori_event);
+
+		$this->load->view('Template/Website/Event/Single-Page/Single_Event_V', $data);
 	}
 }
